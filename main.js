@@ -7,6 +7,7 @@ const rl = readline.createInterface({
   output: process.stdout
 });
 
+
 let board = [];
 let solution = '';
 let letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
@@ -28,13 +29,73 @@ const getRandomInt = (min, max) => {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
-const generateHint = () =>  {
-  // your code here
+const generateHint = (guess) =>  {
+
+  //splitting the guess and solution answers into arrays
+  let guessarray = guess.split('')
+  let solutionarray = solution.split('')
+
+  //creating variables to count correct answers
+  let correctletterlocations = 0
+  let correctletter = 0
+
+  //for loop to determine if guessarry has any letters in the correct postion
+  for(let i = 0 ; i<solutionarray.length; i++){
+    if(guessarray[i] === solutionarray[i]){
+      correctletterlocations ++
+      solutionarray[i] = null
+    }
+  }
+
+  //for loop to determine if guessarray has any correct letters only
+  for(let i = 0; i <solutionarray.length; i++){
+    let indextarget = solutionarray.indexOf(guessarray[i])
+  
+
+
+    
+
+    if(indextarget != -1){
+      correctletter++
+      solutionarray[indextarget] = null
+    }
+  }
+
+
+
+  return `${correctletterlocations}-${correctletter}`
+
 }
 
+
+
 const mastermind = (guess) => {
-  solution = 'abcd'; // Comment this out to generate a random solution
-  // your code here
+  
+  //Define a test solution: Helpful suggestion: while developing you can set a default solution for you to test against. At the top of mastermind(), simply set const solution = 'abcd'; as a global variable.
+  
+
+
+
+  //if the guess you passed in equals the solution, return 'You guessed it!'
+  //else call generate hint and pass it the guess
+  if(guess === solution){
+
+    console.log("You won " + solution)
+    return "You guessed it!"
+    
+  }
+  else if(board.length === 10){
+    console.log("You lost " + solution)
+    return "You lost!"
+  }
+  else{
+    let hint = generateHint(guess)
+    board.push(guess + " " + hint)
+    return "Guess Again!"
+  }
+
+
+
 }
 
 
