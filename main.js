@@ -75,23 +75,19 @@ const mastermind = (guess) => {
   
 
 
-
   //if the guess you passed in equals the solution, return 'You guessed it!'
   //else call generate hint and pass it the guess
   if(guess === solution){
 
-    console.log("You won " + solution)
     return "You guessed it!"
     
   }
   else if(board.length === 10){
-    console.log("You lost " + solution)
     return "You lost!"
   }
   else{
     let hint = generateHint(guess)
     board.push(guess + " " + hint)
-    return "Guess Again!"
   }
 
 
@@ -103,7 +99,13 @@ const getPrompt = () =>  {
   rl.question('guess: ', (guess) => {
     mastermind(guess);
     printBoard();
-    getPrompt();
+    if(guess === solution){
+      console.log(`You won!: ${guess} = ${solution}`)
+    }else if(board.length === 10){
+      console.log(`You lost!: ${solution}`)
+    }else{
+      getPrompt();
+    }
   });
 }
 
